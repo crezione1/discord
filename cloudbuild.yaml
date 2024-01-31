@@ -1,13 +1,20 @@
 steps:
-  # Step 1: Install dependencies
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['install']
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/discord-karma', '.']
 
-  # Step 2: Run the application
-  - name: 'node:14' # Specify the Node.js version you are using
-    args: ['node', 'discord.js']
+  # Step 2: Push the Docker image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/discord-karma']
 
-# Specify the Node.js version used for the build environment
+  # Step 3: Deploy the image to Google Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: ['run', 'deploy', 'your-service-name',
+           '--image', 'gcr.io/$PROJECT_ID/discord-karma',
+           '--region', 'us-central1',
+           '--platform', 'managed',
+           '--allow-unauthenticated']
+
 images:
-  - 'node:14'
-
+  - 'gcr.io/$PROJECT_ID/discord-karma'
