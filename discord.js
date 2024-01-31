@@ -108,6 +108,7 @@ client.on('ready', () => {
 client.on('message', async (message) => {
   // Ignore messages that aren't from a guild
   // or are from a bot
+  // dummy
   if (!message.guild || message.author.bot) return;
 
   // If we've never seen a user before, add them to memory
