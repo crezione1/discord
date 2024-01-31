@@ -10,7 +10,7 @@ steps:
   # Step 3: Deploy the image to Google Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
-    args: ['run', 'deploy', 'run.googleapis.com',
+    args: ['run', 'deploy', 'discord-karma',
            '--image', 'gcr.io/$PROJECT_ID/discord-karma',
            '--region', 'us-central1',
            '--platform', 'managed',
